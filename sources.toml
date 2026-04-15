@@ -1,0 +1,41 @@
+[[source]]
+id = "huggingface"
+label = "Hugging Face"
+kind = "rss"
+url = "https://huggingface.co/blog/feed.xml"
+limit = 8
+
+[[source]]
+id = "latentspace"
+label = "Latent Space"
+kind = "rss"
+url = "https://www.latent.space/feed"
+limit = 6
+
+[[source]]
+id = "simonwillison"
+label = "Simon Willison"
+kind = "rss"
+url = "https://simonwillison.net/atom/everything/"
+limit = 6
+
+[[source]]
+id = "eugeneyan"
+label = "Eugene Yan"
+kind = "rss"
+url = "https://eugeneyan.com/rss/"
+limit = 5
+
+[[source]]
+id = "chiphuyen"
+label = "Chip Huyen"
+kind = "rss"
+url = "https://huyenchip.com/feed.xml"
+limit = 5
+
+[[source]]
+id = "hn_jobs"
+label = "HN Who's Hiring"
+kind = "hn_jobs"
+limit = 12
+query = "AI OR LLM OR machine learning OR deep learning OR MLOps OR NLP"
