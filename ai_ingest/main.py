@@ -61,7 +61,7 @@ def main() -> None:
     seen_ids = load_seen_ids(settings.seen_file)
     candidates = asyncio.run(fetch_candidates(specs, seen_ids, settings.max_items))
 
-    print(f"[info] fetched {len(candidates)} unseen candidates")
+    print(f"[info] fetched {len(candidates)} unseen candidates", flush=True)
     if not candidates:
         return
 
@@ -71,9 +71,12 @@ def main() -> None:
         batch_size=settings.batch_size,
         score_threshold=settings.score_threshold,
     )
-    print(f"[info] kept {len(ranked)} ranked items")
+    print(f"[info] kept {len(ranked)} ranked items", flush=True)
     if not ranked:
-        save_seen_ids(settings.seen_file, seen_ids | {item.id for item in candidates})
+        if args.dry_run:
+            print("[info] dry run; left seen item state unchanged", flush=True)
+        else:
+            save_seen_ids(settings.seen_file, seen_ids | {item.id for item in candidates})
         return
 
     top_ranked = ranked[: settings.top_n]
@@ -102,12 +105,15 @@ def main() -> None:
             text_body=markdown,
             html_body=html,
         )
-        print(f"[info] sent email to {settings.ingest_to}")
+        print(f"[info] sent email to {settings.ingest_to}", flush=True)
     elif not settings.smtp_enabled:
-        print("[info] SMTP not configured; skipped email delivery")
+        print("[info] SMTP not configured; skipped email delivery", flush=True)
 
-    save_seen_ids(settings.seen_file, seen_ids | {item.id for item in candidates})
-    print(f"[info] wrote {markdown_path.name}, {html_path.name}, {json_path.name}")
+    if args.dry_run:
+        print("[info] dry run; left seen item state unchanged", flush=True)
+    else:
+        save_seen_ids(settings.seen_file, seen_ids | {item.id for item in candidates})
+    print(f"[info] wrote {markdown_path.name}, {html_path.name}, {json_path.name}", flush=True)
 
 
 if __name__ == "__main__":
